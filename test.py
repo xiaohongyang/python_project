@@ -36,7 +36,7 @@ class MyCheckButton(tk.Frame) :
 		l_password = Label(self, text="密码")
 		l_password.grid(row=1)
 
-		entry_password = Entry(self)
+		entry_password = Entry(self, show="*")
 		entry_password.grid(row=1, column=1)
 
 		btn_regist = Button(self, text="注册", command=self.register)
@@ -47,13 +47,28 @@ class MyCheckButton(tk.Frame) :
 
 	def register(self):
 		top = tk.Toplevel(self)
+		self.top = top
 
-		l_username = Label(self, text="用户名")
-		l_password = Label(self, text="密码")
-		entry_username = Entry(self)
-		entry_password = Entry(self)
+		l_username = Label(top, text="用户名")
+		entry_username = Entry(top)
 		l_username.grid(row=0)
+		entry_username.grid(row=0, column=1)
 
+		l_password = Label(top, text="密码")
+		entry_password = Entry(top, show="*")
+		l_password.grid(row=1)
+		entry_password.grid(row=1, column=1)
+
+		l_password_confirm = Label(top, text="确认密码")
+		entry_password_confirm = Entry(top, show="*")
+		l_password_confirm.grid(row=2)
+		entry_password_confirm.grid(row=2,column=1)
+
+		btn_ok = Button(top, text="注册")
+		btn_ok.grid(row=3)
+
+	def doRegist(self):
+		print(self.top.L)
 
 
 if __name__ == "__main__" :
