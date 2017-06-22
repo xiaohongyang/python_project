@@ -10,11 +10,11 @@ class MyCheckButton(tk.Frame) :
 		self.master.minsize(200,200)
 		self.var = tk.IntVar()
 
-		cb = tk.Checkbutton(self, text="Show Title", variable = self.var, command = self.click)
-		cb.place(x = 150, y = 150)
+		# cb = tk.Checkbutton(self, text="Show Title", variable = self.var, command = self.click)
+		# cb.place(x = 150, y = 150)
 
 		#cb.pack()
-		cb.place(x=50, y=56)
+		# cb.place(x=50, y=56)
 
 		self.init()
 
@@ -39,9 +39,26 @@ class MyCheckButton(tk.Frame) :
 		entry_password = Entry(self)
 		entry_password.grid(row=1, column=1)
 
+		btn_regist = Button(self, text="注册", command=self.register)
+		btn_regist.grid(row=2)
+
+		btn_submit = Button(self, text="登录");
+		btn_submit.grid(row=2,column=2)
+
+	def register(self):
+		top = tk.Toplevel(self)
+
+		l_username = Label(self, text="用户名")
+		l_password = Label(self, text="密码")
+		entry_username = Entry(self)
+		entry_password = Entry(self)
+		l_username.grid(row=0)
+
+
+
 if __name__ == "__main__" :
 	root = tk.Tk()
 	app = MyCheckButton(master = root)
-	app.master.title("33")
+	app.master.title("用户登录")
 
 	app.mainloop()
