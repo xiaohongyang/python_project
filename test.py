@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+import tkinter.messagebox
  
 
 class MyCheckButton(tk.Frame) :
@@ -55,6 +56,7 @@ class MyCheckButton(tk.Frame) :
 		l_username.grid(row=0)
 
 
+		#tk.messagebox.showinfo("username", "321")
 
 if __name__ == "__main__" :
 	root = tk.Tk()
