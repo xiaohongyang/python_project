@@ -47,20 +47,32 @@ class MyCheckButton(tk.Frame) :
 		btn_submit.grid(row=2,column=2)
 
 	def register(self):
-		top = tk.Toplevel(self)
 
-		l_username = Label(self, text="用户名")
-		l_password = Label(self, text="密码")
-		entry_username = Entry(self)
-		entry_password = Entry(self)
+
+		top = tk.Toplevel()
+
+		l_username = Label(top, text="用户名")
+		l_password = Label(top, text="密码")
+		entry_username = Entry(top)
+		entry_password = Entry(top)
 		l_username.grid(row=0)
+		entry_username.grid(row=0, column=1)
+		l_password.grid(row=1)
+		entry_password.grid(row=1, column=1)
 
+		top.entry_username = entry_username
+
+		btn_ok = Button(top, text="提交注册", command=lambda : self.doRegister(top))
+		btn_ok.grid(row=2)
 
 		#tk.messagebox.showinfo("username", "321")
+
+	def doRegister(self,master):
+		username = master.entry_username.get()
+		tk.messagebox.showinfo("hello","username %s" % username)
 
 if __name__ == "__main__" :
 	root = tk.Tk()
 	app = MyCheckButton(master = root)
 	app.master.title("用户登录")
-
 	app.mainloop()
