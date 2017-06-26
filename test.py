@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import *
 import tkinter.messagebox
- 
+from urllib import *
+import urllib.request
+import json
+
 
 class MyCheckButton(tk.Frame) :
 	def __init__(self, master = None) :
@@ -40,17 +43,42 @@ class MyCheckButton(tk.Frame) :
 		entry_password = Entry(self, show="*")
 		entry_password.grid(row=1, column=1)
 
+		self.entry_username = entry_username
+		self.entry_password = entry_password
+
 		btn_regist = Button(self, text="注册", command=self.register)
 		btn_regist.grid(row=2)
 
-		btn_submit = Button(self, text="登录");
+		btn_submit = Button(self, text="登录", command=self.doLogin);
 		btn_submit.grid(row=2,column=2)
 
+	def doLogin(self):
+		username = self.entry_username.get()
+		password = self.entry_password.get()
+		if len(username) < 1 :
+			tk.messagebox.showinfo("提示:", "账号不能为空")
+		elif len(password) < 1 :
+			tk.messagebox.showinfo("提示:", "密码不能为空")
+		elif self.postLoginUser(username=username, password=password):
+			tk.messagebox.showinfo("提示:", "登录成功")
+		else :
+			tk.messagebox.showinfo("提示:", "登录失败")
+
+	def postLoginUser(self, username="", password=""):
+
+		result = False
+		loginUrl = 'http://laravel.54.com:5000/passwordToken?email=' + username + '&password=' + password
+		print(loginUrl)
+		req = urllib.request.Request(loginUrl)
+		reqObj = urllib.request.urlopen(req)
+		apiContent = reqObj.read()
+		info = str(apiContent, encoding="utf-8")
+		info = json.loads(info)
+		if info['status'] == 1 and len(info['data']) >0 :
+			result = True
+		return  result
 	def register(self):
-
-
 		top = tk.Toplevel()
-
 		l_username = Label(top, text="用户名")
 		l_password = Label(top, text="密码")
 		entry_username = Entry(top)
