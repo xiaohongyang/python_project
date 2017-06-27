@@ -4,7 +4,8 @@ import tkinter.messagebox
 from urllib import *
 import urllib.request
 import json
-
+from lib import  *
+import lib.LogTool
 
 class MyCheckButton(tk.Frame) :
 	def __init__(self, master = None) :
@@ -62,20 +63,35 @@ class MyCheckButton(tk.Frame) :
 		elif self.postLoginUser(username=username, password=password):
 			tk.messagebox.showinfo("提示:", "登录成功")
 		else :
-			tk.messagebox.showinfo("提示:", "登录失败")
+			message =  self.message if hasattr(self, 'message') else "登录失败"
+			print(self.message)
+			tk.messagebox.showinfo("提示:", message)
 
 	def postLoginUser(self, username="", password=""):
 
 		result = False
 		loginUrl = 'http://laravel.54.com:5000/passwordToken?email=' + username + '&password=' + password
 		print(loginUrl)
-		req = urllib.request.Request(loginUrl)
-		reqObj = urllib.request.urlopen(req)
-		apiContent = reqObj.read()
-		info = str(apiContent, encoding="utf-8")
-		info = json.loads(info)
-		if info['status'] == 1 and len(info['data']) >0 :
-			result = True
+
+		try :
+			req = urllib.request.Request(loginUrl)
+			reqObj = urllib.request.urlopen(req)
+			apiContent = reqObj.read()
+			info = str(apiContent, encoding="utf-8")
+			info = json.loads(info)
+			print(info)
+			if info['status'] == 1 and len(info['data']) >0 :
+				result = True
+			else :
+				self.message = info['message']
+				lib.LogTool.LogTool.log(self.message)
+
+
+		except Exception as e:
+			self.message = str(e)
+			print(str(e))
+			lib.LogTool.LogTool.log(str(e))
+
 		return  result
 	def register(self):
 		top = tk.Toplevel()
